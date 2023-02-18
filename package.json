@@ -1,0 +1,20 @@
+{
+  "name": "boost-ai",
+  "version": "1.0.2",
+  "description": "",
+  "main": "src/index.ts",
+  "type": "module",
+  "types": "src/better-ai.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Neo Haggard",
+  "license": "ISC",
+  "dependencies": {
+    "boost-ai": "^1.0.1",
+    "openai": "^3.1.0"
+  },
+  "devDependencies": {
+    "tsc": "^2.0.4"
+  }
+}
