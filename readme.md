@@ -47,7 +47,7 @@ const response = await api.generateText({
 });
 ```
 
-### The other things you can do
+#### Parameters
 Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. So go ahead, give it a try. We'll be waiting here, basking in our own brilliance.
 ```ts
 const response = await api.generateText({
