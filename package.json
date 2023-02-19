@@ -1,12 +1,20 @@
 {
   "name": "boost-ai",
-  "version": "1.0.2",
+  "version": "1.1.2",
   "description": "",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "type": "module",
   "types": "src/better-ai.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./src/better-ai.d.ts"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup src/index.ts --format cjs,esm"
   },
   "author": "Neo Haggard",
   "license": "ISC",
@@ -15,6 +23,7 @@
     "openai": "^3.1.0"
   },
   "devDependencies": {
-    "tsc": "^2.0.4"
+    "tsc": "^2.0.4",
+    "tsup": "^6.6.3"
   }
 }
