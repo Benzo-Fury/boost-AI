@@ -4,10 +4,11 @@ Are you tired of being just an ordinary human with boring everyday tasks? Want t
 ## Table Of Contents
 Oh, look who's too fancy to navigate through our perfectly organized repo on their own. Don't worry, we get it. Why bother using your own eyes and clicking through the folders when you can have someone else do it for you? So here you go, your very own table of contents, just in case all that browsing was too much to handle. You're welcome, we suppose. Don't forget to thank us in your next commit message.
 
-[What is this?](#what-is-this)  
-[How does it work?](#how-does-it-work)  
-[Can I use it my project](can-i-use-it-with-my-project)  
-[Install](install)
+[• What is this?](#what-is-this)  
+[• How does it work?](#how-does-it-work)  
+[• Can I use it my project](#can-i-use-it-with-my-project)  
+[• Install](#install)  
+[• Examples](#examples)  
 
 ## What is this?
 Boost-AI is an open-source project that aims to enhance your willpower... I mean codepower (if that's even a word). We took the boring old shitty openAI api and turned it into something great. Honestly... using this package will change your life, your dad might even come back?
