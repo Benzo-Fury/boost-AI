@@ -54,8 +54,24 @@ const response = await api.generateText({
 
 const response = await api.generateImage({
  prompt: "A cute little cat",
- });
+});
 ```
 
 #### Parameters
-Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. But look... our fancy-pants readme file getting so long that we have to send you off on a wild goose chase to find the fun parameters. Don't worry, we've conveniently hidden them over somewhere deep in the source code, because who has time to scroll through a readme, am I right? Enjoy the [hunt]()!
+Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. 
+
+##### Prefix
+```ts
+const response = await api.generateText({
+ prefix: "Write a poem on:",
+ prompt: "Your mother",
+});
+```
+##### Conversation ID (Memory)
+```ts
+const response = await api.generateImage({
+ prompt: "A cute little cat",
+}, true); //The boolean will specify if you would like to receive the entire response
+```
+
+Now look... our fancy-pants readme file getting so long that we are going to have to send you off on a wild goose chase to find the rest of the fun parameters. Don't worry, we've conveniently hidden them over somewhere deep in the source code, because who has time to scroll through a readme, am I right? Enjoy the [hunt]()!
