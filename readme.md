@@ -27,7 +27,7 @@ Installing Boost-AI is as easy as falling off a log. Just type the command below
 npm install boost-AI
 ```
 
-## Examples
+## Usage
 Wow, do we really have to spell everything out for you? You can't just magically figure out how this thing works on your own? Okay, fine, we'll throw you a bone and provide some examples. But don't get too excited, we're not going to hold your hand every step of the way. After all, if you can't even figure out how to use an AI api on your own, how are you ever going to conquer the world?
 
 Boss: "Gee, thanks for finally realizing that our users might need a little bit of help. I knew I could always count on you to deliver top-quality sarcasm with a side of helpfulness."
@@ -38,23 +38,24 @@ Ready to experience the mind-blowing power of Boost-AI's advanced AI features? G
 import { boostAI } from "boost-ai";
 
 const api = new boostAI("your open ai api key");
-//if your using a process.env variable you might need to use (as string)
+/*You can optionaly set a mongoURI to store all text generation
+uses but we will go throught that later.*/
+const api = new boostAI("your open ai api key", "your mongodb uri");
 ```
 
-### Text Completion Requests
-Only two hours to copy and paste the code and get it working? You're practically a genius. Now, onto the exciting stuff: sending text completion requests with Boost-AI. Who needs a life outside of coding when you have our AI-powered package to keep you entertained? So sit back, relax, and enjoy the ride to the future of software development (or at least, that's what we like to tell ourselves).
+### Generation Requests
+Only two hours to copy and paste the code and get it working? You're practically a genius. Now, onto the exciting stuff: sending text and image generation requests with Boost-AI. Who needs a life outside of coding when you have our AI-powered package to keep you entertained? So sit back, relax, and enjoy the ride to the future of software development (or at least, that's what we like to tell ourselves).
 ```ts
 const response = await api.generateText({
  prompt: "This is the bit where you enter your life problems/questions",
 });
+
+//Alternitavly you can send a request for image generation using Dall.E
+
+const response = await api.generateImage({
+ prompt: "A cute little cat",
+ });
 ```
 
 #### Parameters
-Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. So go ahead, give it a try. We'll be waiting here, basking in our own brilliance.
-```ts
-const response = await api.generateText({
- prefix: "You are a sarcastic chat bot writing a text for:",
- prompt: "this github repo: https://github.com/Benzo-Fury/boost-AI/ ",
- //thing is... we havent yet implemented memory so take the L. But its coming I promise.
-});
-```
+Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. But look... our fancy-pants readme file getting so long that we have to send you off on a wild goose chase to find the fun parameters. Don't worry, we've conveniently hidden them over somewhere deep in the source code, because who has time to scroll through a readme, am I right? Enjoy the [hunt]()!
