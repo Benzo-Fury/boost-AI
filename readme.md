@@ -69,9 +69,15 @@ const response = await api.generateText({
 ```
 ##### Conversation ID (Memory)
 ```ts
-const response = await api.generateImage({
- prompt: "A cute little cat",
-}, true); //The boolean will specify if you would like to receive the entire response
+const response = await api.generateText({
+ prompt: "What is the biggest animal?",
+}, true); //The boolean will specify that we would like to receive the entire response back within our ReturnParams type.
+
+const followUpResponse = await api.generateText({
+ prompt: "What about the smallest one?",
+ conversationId: response.conversationID,
+})
 ```
+> ``📝`` - Full Response will return a custom type called "TextGenerationReturnParams". This can be imported via the package and used as need be. See [this]() for a list of types.
 
 Now look... our fancy-pants readme file getting so long that we are going to have to send you off on a wild goose chase to find the rest of the fun parameters. Don't worry, we've conveniently hidden them over somewhere deep in the source code, because who has time to scroll through a readme, am I right? Enjoy the [hunt]()!
