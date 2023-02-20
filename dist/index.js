@@ -1,8 +1,14 @@
+import {
+  conversationSchema_default
+} from "./chunk-MUHL66KD.js";
+
 // src/index.ts
 import {
   Configuration,
   OpenAIApi
 } from "openai";
+import mongoose from "mongoose";
+import uniqid from "uniqid";
 var LanguageModel = /* @__PURE__ */ ((LanguageModel2) => {
   LanguageModel2["DAVINCI"] = "text-davinci-003";
   LanguageModel2["CURIE"] = "text-curie-001";
@@ -10,9 +16,18 @@ var LanguageModel = /* @__PURE__ */ ((LanguageModel2) => {
   LanguageModel2["ADA"] = "text-ada-001";
   return LanguageModel2;
 })(LanguageModel || {});
+var PointerTypeEnum = /* @__PURE__ */ ((PointerTypeEnum2) => {
+  PointerTypeEnum2["id"] = "ID";
+  PointerTypeEnum2["prompt"] = "Prompt";
+  PointerTypeEnum2["response"] = "Response";
+  return PointerTypeEnum2;
+})(PointerTypeEnum || {});
 var boostAI = class {
   api;
-  constructor(apiKey) {
+  connection;
+  //class parameters are not a type meaning if a user dosnt want a connection but they want a full response they cannot
+  //change parameters to new type
+  constructor(apiKey, mongoURI) {
     if (!apiKey) {
       throw new Error("API key is required.");
     }
@@ -20,8 +35,22 @@ var boostAI = class {
       apiKey
     });
     this.api = new OpenAIApi(configuration);
+    if (!mongoURI)
+      return;
+    this.connect(mongoURI);
   }
-  async generateText(params, returnFullResponse = false) {
+  async connect(uri) {
+    try {
+      mongoose.set("strictQuery", false);
+      const connection = await mongoose.connect(uri, {
+        keepAlive: true
+      });
+      this.connection = connection;
+    } catch (err) {
+      throw new Error("Failed to connect to database:", err);
+    }
+  }
+  async generateText(params, returnFullResponse) {
     if (!params.prompt) {
       throw new Error(`Invalid prompt. Prompt cannot be empty.`);
     }
@@ -33,32 +62,62 @@ var boostAI = class {
         max_tokens: params.maxTokens,
         temperature: params.creativity
       });
-      if (returnFullResponse === true) {
-        return completion;
-      } else {
-        return completion.data.choices[0].text;
+      let id = "No database set. Refer to docs if you would like to enable";
+      if (this.connection) {
+        id = uniqid();
+        await conversationSchema_default.create({
+          _id: id,
+          prompt: dt,
+          response: completion.data.choices[0].text
+        });
       }
-    } catch {
-      return "ERROR";
+      return returnFullResponse === true ? {
+        openAIResponse: completion,
+        responseID: id,
+        time: (/* @__PURE__ */ new Date()).toString()
+      } : completion.data.choices[0].text;
+    } catch (err) {
+      console.log(err);
+      process.exit();
     }
   }
-  async generateImage(params, returnFullResponse = false) {
+  async generateImage(params, returnFullResponse) {
     if (!params.prompt) {
       throw new Error(`Invalid prompt. Prompt cannot be empty.`);
     }
-    const completion = await this.api.createImage({
-      prompt: params.prefix ? params.prefix + params.prompt : params.prompt,
-      n: params.amount || 1,
-      size: params.size || "1024x1024"
-    });
-    if (returnFullResponse === true) {
-      return completion;
-    } else {
-      return completion.data.data[0].url;
+    try {
+      const completion = await this.api.createImage({
+        prompt: params.prefix ? params.prefix + params.prompt : params.prompt,
+        n: params.amount || 1,
+        size: params.size || "1024x1024"
+      });
+      return returnFullResponse === true ? completion : completion.data.data[0].url;
+    } catch (err) {
+      throw new Error("Inappropriate Prompt... DallE rejected.");
     }
+  }
+  async search(params) {
+    let pointer;
+    switch (params.pointerType) {
+      case "Response" /* response */: {
+        pointer = { response: params.pointer };
+        break;
+      }
+      case "Prompt" /* prompt */: {
+        pointer = { prompt: params.pointer };
+        break;
+      }
+      default: {
+        pointer = { _id: params.pointer };
+        break;
+      }
+    }
+    const conversationResult = await conversationSchema_default.findOne(pointer);
+    return !conversationResult ? "NO RESULT" : conversationResult;
   }
 };
 export {
   LanguageModel,
+  PointerTypeEnum,
   boostAI
 };
