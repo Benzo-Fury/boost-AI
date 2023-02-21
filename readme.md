@@ -1,3 +1,5 @@
+Well. I just logged onto npm and saw that 271 people have downloaded my package. WOW, 2 days and 271... this is crazy. If your reading this keep in mind that this is a **Work In progress** and is not finished. The current memory mongoose connection are being developed and should not be used at the current point in time. I will update this message later on when this code is working great.
+
 # Boost-AI
 Are you tired of being just an ordinary human with boring everyday tasks? Want to take your cognitive abilities to the next level and become a superhuman? Look no further, because Boost-AI is here to turn you and your project into a genius.
 
