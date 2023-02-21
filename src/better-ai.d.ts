@@ -6,10 +6,11 @@ declare module "boost-ai" {
   import {
     LanguageModel,
     TextGenerationParams,
+    TextGenerationReturnParams,
     ImageGenerationParams,
     PointerParams,
     GenerationParams,
-  } from "boost-ai";
+  } from "./index";
 
   export class boostAI {
     constructor(apiKey: string, uri?: string, returnFullResponse?: boolean);
@@ -26,4 +27,5 @@ declare module "boost-ai" {
   }
 
   export { conversationSchema };
+  export { TextGenerationReturnParams };
 }

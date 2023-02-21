@@ -38,8 +38,8 @@ Ready to experience the mind-blowing power of Boost-AI's advanced AI features? G
 import { boostAI } from "boost-ai";
 
 const api = new boostAI("your open ai api key");
-/*You can optionaly set a mongoURI to store all text generation
-uses but we will go throught that later.*/
+/*You can optionally set a mongoURI to store all text generation
+uses but we will go through that later.*/
 const api = new boostAI("your open ai api key", "your mongodb uri");
 ```
 
@@ -50,7 +50,7 @@ const response = await api.generateText({
  prompt: "This is the bit where you enter your life problems/questions",
 });
 
-//Alternitavly you can send a request for image generation using Dall.E
+//Alternatively you can send a request for image generation using Dall.E
 
 const response = await api.generateImage({
  prompt: "A cute little cat",

@@ -63,12 +63,12 @@ export type ImageGenerationParams = {
  * What text generation will return if returnFullResponse is set to true.
  * @typedef {Object} ImageGenerationParams
  * @property {AxiosResponse<CreateCompletionResponse>} [openAIResponse] - The open ai response/completion.
- * @property {string} [responseID] - The id that was generated for this response.
+ * @property {string} [conversationID] - The id that was generated for this response.
  * @property {string} [time] - The current time that this response was generated at.
  */
 export type TextGenerationReturnParams = {
   openAIResponse: AxiosResponse<CreateCompletionResponse>;
-  responseID: string;
+  conversationID: string;
   time: string;
 };
 
@@ -138,7 +138,7 @@ export class boostAI {
       return returnFullResponse === true
         ? {
             openAIResponse: completion,
-            responseID: id,
+            conversationID: id,
             time: new Date().toString(),
           }
         : completion.data.choices[0].text!;
@@ -174,15 +174,15 @@ export class boostAI {
     let pointer;
     switch (params.pointerType) {
       case PointerTypeEnum.response: {
-        pointer = {response: params.pointer};
+        pointer = { response: params.pointer };
         break;
       }
       case PointerTypeEnum.prompt: {
-        pointer = {prompt: params.pointer};
+        pointer = { prompt: params.pointer };
         break;
       }
       default: {
-        pointer = {_id: params.pointer};
+        pointer = { _id: params.pointer };
         break;
       }
     }
