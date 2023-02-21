@@ -8,7 +8,7 @@ Oh, look who's too fancy to navigate through our perfectly organized repo on the
 [• How does it work?](#how-does-it-work)  
 [• Can I use it my project](#can-i-use-it-with-my-project)  
 [• Install](#install)  
-[• Examples](#examples)  
+[• Examples](#usage)  
 
 ## What is this?
 Boost-AI is an open-source project that aims to enhance your willpower... I mean codepower (if that's even a word). We took the boring old shitty openAI api and turned it into something great. Honestly... using this package will change your life, your dad might even come back?
@@ -57,7 +57,7 @@ const response = await api.generateImage({
 });
 ```
 
-#### Parameters
+### Parameters
 Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. 
 
 ##### Prefix
@@ -67,7 +67,12 @@ const response = await api.generateText({
  prompt: "Your mother",
 });
 ```
-##### Conversation ID (Memory)
+
+### Memory
+Ah, memory. The stuff of nightmares for those not brave enough to face its mighty power. We've even given it its own VIP section outside of the common parameters area, because let's be real, it deserves that kind of special treatment. So go ahead, quiver in fear as you approach the hallowed halls of memory, knowing that only the bravest of coders dare to venture into its realm. Or maybe you have years of coding experience, in which case, why on earth would you be using this package? But hey, we won't judge. Anyways, here's how you use the thing.
+
+Each time you create a generateText request via our package it will be stored in the mongo database as long as you have it connected
+
 ```ts
 const response = await api.generateText({
  prompt: "What is the biggest animal?",
@@ -78,6 +83,7 @@ const followUpResponse = await api.generateText({
  conversationId: response.conversationID,
 })
 ```
-> ``📝`` - Full Response will return a custom type called "TextGenerationReturnParams". This can be imported via the package and used as need be. See [this]() for a list of types.
 
-Now look... our fancy-pants readme file getting so long that we are going to have to send you off on a wild goose chase to find the rest of the fun parameters. Don't worry, we've conveniently hidden them over somewhere deep in the source code, because who has time to scroll through a readme, am I right? Enjoy the [hunt]()!
+> ``📝`` - Full Response will return a custom type called "TextGenerationReturnParams". This can be imported via the package and used as need be. See [this]() for a list of types.
+> ``📝`` - Using a conversation ID requires you to have a mongo URI set in your api instance and the database must be running (in future we will change to locally stored information rather than a db).
+
