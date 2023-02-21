@@ -46,6 +46,10 @@ var conversationSchema = new import_mongoose.default.Schema({
   response: {
     type: String,
     required: true
+  },
+  previousQAA: {
+    type: String,
+    required: false
   }
 });
 var conversationSchema_default = import_mongoose.default.model("Conversations", conversationSchema);

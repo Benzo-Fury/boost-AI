@@ -13,6 +13,10 @@ const conversationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  previousQAA:{
+    type: String,
+    required: false
+  }
 });
 
 export default mongoose.model("Conversations", conversationSchema);

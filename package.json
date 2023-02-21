@@ -1,7 +1,7 @@
 {
   "name": "boost-ai",
-  "version": "1.1.2",
-  "description": "",
+  "version": "1.2.3",
+  "description": "Boost-AI is here to turn you and your project into a genius.",
   "main": "dist/index.js",
   "type": "module",
   "types": "src/better-ai.d.ts",
@@ -16,10 +16,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup src/index.ts src/schemas --format cjs,esm"
   },
+  "keywords": [
+    "ai",
+    "boost-ai",
+    "chatGPT",
+    "artificial intelligence"
+  ],
   "author": "Neo Haggard",
   "license": "ISC",
   "dependencies": {
-    "boost-ai": "^1.0.1",
     "mongoose": "^6.9.2",
     "openai": "^3.1.0",
     "uniqid": "^5.4.0"

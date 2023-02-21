@@ -1,6 +1,6 @@
 import {
   conversationSchema_default
-} from "../chunk-MUHL66KD.js";
+} from "../chunk-GZMI77MS.js";
 export {
   conversationSchema_default as default
 };

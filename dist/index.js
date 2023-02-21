@@ -1,6 +1,6 @@
 import {
   conversationSchema_default
-} from "./chunk-MUHL66KD.js";
+} from "./chunk-GZMI77MS.js";
 
 // src/index.ts
 import {
@@ -25,8 +25,6 @@ var PointerTypeEnum = /* @__PURE__ */ ((PointerTypeEnum2) => {
 var boostAI = class {
   api;
   connection;
-  //class parameters are not a type meaning if a user dosnt want a connection but they want a full response they cannot
-  //change parameters to new type
   constructor(apiKey, mongoURI) {
     if (!apiKey) {
       throw new Error("API key is required.");
@@ -47,15 +45,31 @@ var boostAI = class {
       });
       this.connection = connection;
     } catch (err) {
-      throw new Error("Failed to connect to database:", err);
+      throw new Error("Failed to connect to database:" + err);
     }
   }
   async generateText(params, returnFullResponse) {
     if (!params.prompt) {
       throw new Error(`Invalid prompt. Prompt cannot be empty.`);
     }
-    const dt = (params.prefix || "") + `${params.prompt}.`;
     try {
+      let dt;
+      if (params.conversationID && this.connection) {
+        if (params.conversationID && !this.connection) {
+          throw new Error(
+            "No mongo URI has been specified. Cannot use conversation ID without database"
+          );
+        }
+        const conversationResult = await conversationSchema_default.findOne({
+          _id: params.conversationID
+        });
+        if (!conversationResult) {
+          throw new Error("No conversation found.");
+        }
+        dt = `This user has a previous conversation with you that they would like to continue. The conversation will be inside quotation marks now: (user: ${conversationResult.prompt}. Answer: ${conversationResult.response}. ${conversationResult.previousQAA || ""})` + (params.prefix || "") + `${params.prompt}.`;
+      } else {
+        dt = (params.prefix || "") + `${params.prompt}.`;
+      }
       const completion = await this.api.createCompletion({
         model: params.model || "text-davinci-003",
         prompt: dt,
@@ -73,7 +87,7 @@ var boostAI = class {
       }
       return returnFullResponse === true ? {
         openAIResponse: completion,
-        responseID: id,
+        conversationID: id,
         time: (/* @__PURE__ */ new Date()).toString()
       } : completion.data.choices[0].text;
     } catch (err) {
@@ -112,8 +126,9 @@ var boostAI = class {
         break;
       }
     }
-    const conversationResult = await conversationSchema_default.findOne(pointer);
-    return !conversationResult ? "NO RESULT" : conversationResult;
+    const conversationResult = await conversationSchema_default.find(pointer);
+    const returner = conversationResult[1] ? conversationResult : conversationResult[0];
+    return !conversationResult ? void 0 : returner;
   }
 };
 export {

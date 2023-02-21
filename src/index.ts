@@ -37,6 +37,7 @@ export type TextGenerationParams = {
   prompt: string;
   prefix?: string;
   model?: LanguageModel;
+  conversationID?: string;
   maxTokens?: number;
   creativity?: number;
 };
@@ -81,9 +82,6 @@ export class boostAI {
   private api: OpenAIApi;
   private connection?: typeof mongoose;
 
-  //class parameters are not a type meaning if a user dosnt want a connection but they want a full response they cannot
-  //change parameters to new type
-
   constructor(apiKey: string, mongoURI: string) {
     if (!apiKey) {
       throw new Error("API key is required.");
@@ -107,7 +105,7 @@ export class boostAI {
       });
       this.connection = connection;
     } catch (err) {
-      throw new Error("Failed to connect to database:", err!);
+      throw new Error("Failed to connect to database:" + err);
     }
   }
 
@@ -118,8 +116,32 @@ export class boostAI {
     if (!params.prompt) {
       throw new Error(`Invalid prompt. Prompt cannot be empty.`);
     }
-    const dt = (params.prefix || "") + `${params.prompt}.`;
+
     try {
+      let dt;
+      if (params.conversationID && this.connection) {
+        if (params.conversationID && !this.connection) {
+          throw new Error(
+            "No mongo URI has been specified. Cannot use conversation ID without database"
+          );
+        }
+        const conversationResult = await conversationSchema.findOne({
+          _id: params.conversationID,
+        });
+        if (!conversationResult) {
+          throw new Error("No conversation found.");
+        }
+        dt =
+          `This user has a previous conversation with you that they would like to continue. The conversation will be inside quotation marks now: (user: ${
+            conversationResult.prompt
+          }. Answer: ${conversationResult.response}. ${
+            conversationResult.previousQAA || ""
+          })` +
+          (params.prefix || "") +
+          `${params.prompt}.`;
+      } else {
+        dt = (params.prefix || "") + `${params.prompt}.`;
+      }
       const completion = await this.api.createCompletion({
         model: params.model || "text-davinci-003",
         prompt: dt,
@@ -170,7 +192,9 @@ export class boostAI {
     }
   }
 
-  async search(params: PointerParams): Promise<mongoose.Document | undefined> {
+  async search(
+    params: PointerParams
+  ): Promise<mongoose.Document | mongoose.Document[] | undefined> {
     let pointer;
     switch (params.pointerType) {
       case PointerTypeEnum.response: {
@@ -186,7 +210,10 @@ export class boostAI {
         break;
       }
     }
-    const conversationResult = await conversationSchema.findOne(pointer);
-    return !conversationResult ? undefined : conversationResult;
+    const conversationResult = await conversationSchema.find(pointer);
+    const returner = conversationResult[1]
+      ? conversationResult
+      : conversationResult[0]!;
+    return !conversationResult ? undefined : returner;
   }
 }

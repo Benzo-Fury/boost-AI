@@ -1,2 +1,0 @@
-# Parameters 
-Well, well, well... Look who's made it to the parameters page! Congratulations, you must have endured the thrilling adventure of scrolling through our oh-so-exciting source code. Or, maybe you actually clicked on that pesky little link we placed in the main readme, how convenient of you! Anyways, here you are, on the most important page of our entire API. We've got some amazing parameters exclusive to Boost-AI, and we're about to reveal them all to you. Get ready to have your mind blown!
