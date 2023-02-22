@@ -1,6 +1,6 @@
 {
   "name": "boost-ai",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Boost-AI is here to turn you and your project into a genius.",
   "main": "dist/index.js",
   "type": "module",
