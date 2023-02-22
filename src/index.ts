@@ -195,6 +195,9 @@ export class boostAI {
   async search(
     params: PointerParams
   ): Promise<mongoose.Document | mongoose.Document[] | undefined> {
+    if(!this.connection) {
+      throw new Error('Search function cannot be used without a database connection.')
+    }
     let pointer;
     switch (params.pointerType) {
       case PointerTypeEnum.response: {
