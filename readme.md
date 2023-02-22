@@ -49,8 +49,6 @@ const api = new boostAI("your open ai api key", "your mongodb uri");
 Only two hours to copy and paste the code and get it working? You're practically a genius. Now, onto the exciting stuff: sending text and image generation requests with Boost-AI. Who needs a life outside of coding when you have our AI-powered package to keep you entertained? So sit back, relax, and enjoy the ride to the future of software development (or at least, that's what we like to tell ourselves).
 
 #### Text Generation
-
-##### Default Generation Requests
 Sending text generation requests is as easy as taking candy from a baby. Just give the package a prompt, sit back, and watch it work its magic. It's like having a personal writing assistant that never gets tired, grumpy, or distracted by cat videos.  
 ```ts
 const response = await api.generateText({
@@ -58,7 +56,7 @@ const response = await api.generateText({
 });
 ```
 
-##### Response
+##### Response Modification (Return Full Response)
 Ah, yes. The thrill of the unknown. By default, our package will only give you the answer string that was generated, because we like to keep things exciting. But if you're feeling daring and want to see the full response, you can specify that with the "returnFullResponse" special section. Just set it to "true" and voila! You'll get all the juicy details of the response. Of course, if you're not into that kind of thing, you can just stick with the default and live on the edge like the rest of us. Oh yeah this is how you do it:
 ```ts
 const response = await api.generateText({
@@ -90,6 +88,19 @@ const response = await api.generateText({
  prompt: "Your mother",
 });
 ```
+Wondering where the rest of the parameters are? Yeah us too! Honestly I think we lost where they were... wait nevermind there right here:
+
+Our parameters are apart of a fancy type called TextGenerationParams. These params are all listed below:
+
+| Name        | Type        | Optional      |
+| :---        |    :----:   |          ---: |
+| prompt      | String      |    ✘          |
+| prefix      | String      |    ✓          |
+| model       | LanguageModel |    ✓        |
+| conversationID | String   |    ✓          |
+| maxTokens   | Interger    |    ✓          |
+| creativity  | Interger (0.0 - 1.0) |     ✓ |
+
 
 #### Image Generation
 You want to generate images? Ooh, how fancy! I suppose it's all fun and games until you accidentally create a masterpiece of Fat Obama wielding a bazooka. But don't fret, dear user, because image generation with Boost-AI is smarter than your average bear. It has built-in anti-inappropriate image properties, which means it'll throw an error and reject any attempts to generate anything too racy. So, if you're feeling like playing with fire, be prepared to face the wrath of an "Inappropriate Prompt...DallE rejected" error message. Don't say we didn't warn you!
@@ -105,18 +116,51 @@ Ah, memory. The stuff of nightmares for those not brave enough to face its might
 
 Our package stores every generateText request in a connected MongoDB database, unless you haven't set a MongoDB URI, in which case it'll just shrug and move on without throwing any errors.
 
+#### Generate Text Followups (REAL MEMORY)
+Wow, isn't it just amazing how you can use the conversation ID (if you even remember it) to create follow up requests for previous text requests? It's almost like technology is advancing every day or something. And get this - all you have to do is specify the conversation ID within the new request! Mind-blowing, isn't it? Who would have thought that following up on a conversation could be so simple?
 ```ts
 const response = await api.generateText({
  prompt: "What is the biggest animal?",
-}, true); //The boolean will specify that we would like to receive the entire response back within our ReturnParams type.
+}, true); //The boolean will specify that we would like to receive the entire response back as stated above.
 
 const followUpResponse = await api.generateText({
  prompt: "What about the smallest one?",
- conversationId: response.conversationID,
+ conversationId: response.conversationID || "", // you only need the or "" statement if your using typescript
 })
 ```
 
-> ``📝`` - Full Response will return a custom type called "TextGenerationReturnParams". This can be imported via the package and used as need be. See [this]() for a list of types.
+If you're using TypeScript, you might run into an error that says "Property 'conversationID' does not exist on type 'string'." How fun! But don't worry, we've got a super simple solution for you. Just add an if statement above to check that the response isn't a string. No biggie! Of course, we'll fix this issue on our end soon enough...but hey, why not add a little extra work to your plate in the meantime, right?
 
-> ``📝`` - Using a conversation ID requires you to have a mongo URI set in your api instance and the database must be running (in future we will change to locally stored information rather than a db).
+#### Searching
 
+Ah, so you've misplaced the conversation ID from a test generation request from 7 days ago? No worries, our search function has got you covered. Simply provide your search criteria, and let our powerful search feature do the rest. You can even use 2 different parameters to narrow down your results and find exactly what you're looking for.
+```ts
+const searchResult = await api.search({
+ pointer: 'prompt';
+ pointerType: PointerTypeEnum.prompt;
+});
+```
+
+Oh boy, you're in luck! Our 3 pointer types are here to help you track down those oh-so-important conversations you've stored in the database. It uses not one, not two, but three different pointer types to filter your search: id, prompt, and response. How exciting!
+
+**ID** - The "id" pointer is just a fancy way of referring to the unique identifier generated for each request. So, if you happen to know that pesky little ID, you can use it to find a specific conversation. Ain't technology grand?
+
+**Prompt** - The "prompt" pointer is simply the input prompt you used to generate the response. Now, you can use this to search for a specific conversation by the prompt used. I mean, who needs Google when you have our search function, right?
+
+**Response** - Last but not least, the "response" pointer refers to the actual response generated by the AI. This is particularly useful when you want to search for a specific conversation based on the response it generated.
+
+So, let's say you wanted to find a document with the response "The blue whale is the largest animal." Well, aren't you fancy! You can use the search function like this, specifying the "response" pointer to filter your search results:
+```ts
+const searchResult = await api.search({
+ pointer: 'The blue whale is the largest animal.';
+ pointerType: PointerTypeEnum.response;
+});
+```
+> ``📝`` - Using the search function requires you to have a mongo URI set in your api instance and the database must be running.
+
+
+Oh, you're wondering why you should use our search function instead of the mongoose .findOne() function? That's a really great question, and honestly, we have no idea. But hey, why not use it anyway, just to be safe? You never know when we might decide to swap to locally stored information without a database in the future. And you wouldn't want your code to break when we make that update, would you? So just use the search function mate.
+
+Oh, one more thing to keep in mind! If you don't use a conversation ID, you might get more than one document in return. Shocking, I know! But don't worry, it's not a bug, it's a feature. You'll get an array of all the documents, because why have one when you can have many, right? Just remember this when searching by prompt or response, because you might have to do some extra work to find the one you're looking for. Happy searching!
+
+Great now we have finihsed the huge read me file. L. Have fun
