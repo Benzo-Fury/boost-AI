@@ -47,22 +47,43 @@ const api = new boostAI("your open ai api key", "your mongodb uri");
 
 ### Generation Requests
 Only two hours to copy and paste the code and get it working? You're practically a genius. Now, onto the exciting stuff: sending text and image generation requests with Boost-AI. Who needs a life outside of coding when you have our AI-powered package to keep you entertained? So sit back, relax, and enjoy the ride to the future of software development (or at least, that's what we like to tell ourselves).
+
+#### Text Generation
+
+##### Default Generation Requests
+Sending text generation requests is as easy as taking candy from a baby. Just give the package a prompt, sit back, and watch it work its magic. It's like having a personal writing assistant that never gets tired, grumpy, or distracted by cat videos.  
 ```ts
 const response = await api.generateText({
  prompt: "This is the bit where you enter your life problems/questions",
 });
-
-//Alternatively you can send a request for image generation using Dall.E
-
-const response = await api.generateImage({
- prompt: "A cute little cat",
-});
 ```
 
-### Parameters
-Well, that was a piece of cake. But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an incredible memory system and the ability to understand your every command. 
+##### Response
+Ah, yes. The thrill of the unknown. By default, our package will only give you the answer string that was generated, because we like to keep things exciting. But if you're feeling daring and want to see the full response, you can specify that with the "returnFullResponse" special section. Just set it to "true" and voila! You'll get all the juicy details of the response. Of course, if you're not into that kind of thing, you can just stick with the default and live on the edge like the rest of us. Oh yeah this is how you do it:
+```ts
+const response = await api.generateText({
+ prompt: "This is the bit where you enter your life problems/questions",
+}, true); // <<< see how it says true
+```
+What will this return you may ask? Thats a great qustion. Our life changing package will return a custom type that looks a little like this:
 
-##### Prefix
+```ts
+{
+  openAIResponse: AxiosResponse<CreateCompletionResponse>;
+  conversationID: string;
+  time: string;
+}
+```
+
+You can import this type from our package for all your devily desires if you need it:
+```ts
+import { TextGenerationReturnParams } from 'boost-AI'
+```
+
+##### Prefix And Parameters
+But wait, there's more! As if Boost-AI wasn't already the best thing to happen to your code, you can also specify a prefix to use or even give our API memory. That's right, we're not just a pretty face. We're a pretty face with an [incredible memory system](#memory) and the ability to understand your every command. 
+
+Aren't we getting fancy with our chatbot prompts? Who needs simple prompts like "hello" or "how are you" when you can generate a poem about your dear old mother with just two words? But fear not, dear user, for Boost-ai has your back with our fancy-schmancy prefix parameter. Now you don't even have to bother typing out those extra two letters, because we all know how strenuous that can be. Just sit back, relax, and let Boost-ai do the work for you. After all, who needs the satisfaction of doing things manually when you have a machine to do it for you, right?
 ```ts
 const response = await api.generateText({
  prefix: "Write a poem on:",
@@ -70,10 +91,19 @@ const response = await api.generateText({
 });
 ```
 
+#### Image Generation
+You want to generate images? Ooh, how fancy! I suppose it's all fun and games until you accidentally create a masterpiece of Fat Obama wielding a bazooka. But don't fret, dear user, because image generation with Boost-AI is smarter than your average bear. It has built-in anti-inappropriate image properties, which means it'll throw an error and reject any attempts to generate anything too racy. So, if you're feeling like playing with fire, be prepared to face the wrath of an "Inappropriate Prompt...DallE rejected" error message. Don't say we didn't warn you!
+
+```ts
+const response = await api.generateImage({
+ prompt: "A cute little cat",
+});
+```
+
 ### Memory
 Ah, memory. The stuff of nightmares for those not brave enough to face its mighty power. We've even given it its own VIP section outside of the common parameters area, because let's be real, it deserves that kind of special treatment. So go ahead, quiver in fear as you approach the hallowed halls of memory, knowing that only the bravest of coders dare to venture into its realm. Or maybe you have years of coding experience, in which case, why on earth would you be using this package? But hey, we won't judge. Anyways, here's how you use the thing.
 
-Each time you create a generateText request via our package it will be stored in the mongo database as long as you have it connected
+Our package stores every generateText request in a connected MongoDB database, unless you haven't set a MongoDB URI, in which case it'll just shrug and move on without throwing any errors.
 
 ```ts
 const response = await api.generateText({
@@ -87,5 +117,6 @@ const followUpResponse = await api.generateText({
 ```
 
 > ``📝`` - Full Response will return a custom type called "TextGenerationReturnParams". This can be imported via the package and used as need be. See [this]() for a list of types.
+
 > ``📝`` - Using a conversation ID requires you to have a mongo URI set in your api instance and the database must be running (in future we will change to locally stored information rather than a db).
 
