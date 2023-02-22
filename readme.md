@@ -61,7 +61,7 @@ const response = await api.generateText({
  prompt: "This is the bit where you enter your life problems/questions",
 }, true); // <<< see how it says true
 ```
-What will this return you may ask? Thats a great qustion. Our life changing package will return a custom type that looks a little like this:
+What will this return you may ask? Thats a great question. Our life changing package will return a custom type that looks a little like this:
 
 ```ts
 {
@@ -134,7 +134,7 @@ If you're using TypeScript, you might run into an error that says "Property 'con
 Ah, so you've misplaced the conversation ID from a test generation request from 7 days ago? No worries, our search function has got you covered. Simply provide your search criteria, and let our powerful search feature do the rest. You can even use 2 different parameters to narrow down your results and find exactly what you're looking for.
 ```ts
 const searchResult = await api.search({
- pointer: 'prompt';
+ pointer: 'prompt',
  pointerType: PointerTypeEnum.prompt;
 });
 ```
@@ -161,4 +161,4 @@ Oh, you're wondering why you should use our search function instead of the mongo
 
 Oh, one more thing to keep in mind! If you don't use a conversation ID, you might get more than one document in return. Shocking, I know! But don't worry, it's not a bug, it's a feature. You'll get an array of all the documents, because why have one when you can have many, right? Just remember this when searching by prompt or response, because you might have to do some extra work to find the one you're looking for. Happy searching!
 
-Great now we have finihsed the huge read me file. L. Have fun
+Great now we have finished the huge read me file. L. Have fun
