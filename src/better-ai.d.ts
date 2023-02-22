@@ -29,4 +29,4 @@ declare module "boost-ai" {
   }
 }
 
-export { conversationSchema, TextGenerationParams, PointerTypeEnum };
+export { conversationSchema, TextGenerationParams, PointerTypeEnum, TextGenerationReturnParams };
