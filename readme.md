@@ -16,7 +16,7 @@ Boost-AI is an open-source project that aims to enhance your willpower... I mean
 ## How does it work?
 Well, we can't say for sure. According to the creators, Boost-AI uses a sophisticated blend of AI algorithms and powerful machine learning techniques to deeply understand your code and deliver unparalleled API requests. We could also mention "black magic", but let's leave that for our more mystical competitors.
 
-In all honesty, the team behind Boost-AI probably just followed a basic tutorial on creating an npm package that uses AI. But hey, as long as it works, right? And if it doesn't, you can always just blame the "magic" not cooperating.
+In all honesty, the team behind Boost-AI probably just followed a basic tutorial on creating a npm package that uses AI. But hey, as long as it works, right? And if it doesn't, you can always just blame the "magic" not cooperating.
 
 ## Can I use it with my project?
 Oh, of course, you want to know if our amazing creation is compatible with your project. Well, let's just say that Boost-AI was created by a 15-year-old who was fueled by nothing but pizza and Mountain Dew, so the odds are not in your favor. But fear not, we've made some improvements, and now we even support ESM. We know you were holding your breath for that one. Because let's be real, nothing screams quality like a package created by a teenager fueled by junk food. And let's not forget, Boost-AI is just a slightly better version of the OpenAI API, so you might as well just use the original and save yourself the trouble. But hey, if you want to use Boost-AI and pretend like you're cutting-edge, go right ahead.
@@ -30,7 +30,7 @@ npm install boost-AI
 ## Usage
 Wow, do we really have to spell everything out for you? You can't just magically figure out how this thing works on your own? Okay, fine, we'll throw you a bone and provide some examples. But don't get too excited, we're not going to hold your hand every step of the way. After all, if you can't even figure out how to use an AI api on your own, how are you ever going to conquer the world?
 
-Boss: "Gee, thanks for finally realizing that our users might need a little bit of help. I knew I could always count on you to deliver top-quality sarcasm with a side of helpfulness."
+Boss: "Gee, thanks for finally realizing that our users might need a bit of help. I knew I could always count on you to deliver top-quality sarcasm with a side of helpfulness."
 
 ### API Instance
 Ready to experience the mind-blowing power of Boost-AI's advanced AI features? Great! But first, you'll need to create an API instance.
@@ -55,13 +55,13 @@ const response = await api.generateText({
 ```
 
 ##### Response Modification (Return Full Response)
-Ah, yes. The thrill of the unknown. By default, our package will only give you the answer string that was generated, because we like to keep things exciting. But if you're feeling daring and want to see the full response, you can specify that with the "returnFullResponse" special section. Just set it to "true" and voila! You'll get all the juicy details of the response. Of course, if you're not into that kind of thing, you can just stick with the default and live on the edge like the rest of us. Oh yeah this is how you do it:
+Ah, yes. The thrill of the unknown. By default, our package will only give you the answer string that was generated, because we like to keep things exciting. But if you're feeling daring and want to see the full response, you can specify that with the "returnFullResponse" special section. Just set it to "true" and voila! You'll get all the juicy details of the response. Of course, if you're not into that kind of thing, you can just stick with the default and live on the edge like the rest of us. Oh, yeah this is how you do it:
 ```ts
 const response = await api.generateText({
  prompt: "This is the bit where you enter your life problems/questions",
 }, true); // <<< see how it says true
 ```
-What will this return you may ask? Thats a great question. Our life changing package will return a custom type that looks a little like this:
+What will this return you may ask? That's a great question. Our life changing package will return a custom type that looks a little like this:
 
 ```ts
 {
@@ -86,18 +86,18 @@ const response = await api.generateText({
  prompt: "Your mother",
 });
 ```
-Wondering where the rest of the parameters are? Yeah us too! Honestly I think we lost where they were... wait nevermind there right here:
+Wondering where the rest of the parameters are? Yeah, us too! Honestly I think we lost where they were... wait never-mind there right here:
 
-Our parameters are apart of a fancy type called TextGenerationParams. These params are all listed below:
+Our parameters are a part of a fancy type called TextGenerationParams. These params are all listed below:
 
-| Name        | Type        | Optional      |
-| :---        |    :----:   |          ---: |
-| prompt      | String      |    ✘          |
-| prefix      | String      |    ✓          |
-| model       | LanguageModel |    ✓        |
-| conversationID | String   |    ✓          |
-| maxTokens   | Interger    |    ✓          |
-| creativity  | Interger (0.0 - 1.0) |     ✓ |
+| Name           |        Type         | Optional |
+|:---------------|:-------------------:|---------:|
+| prompt         |       String        |        ✘ |
+| prefix         |       String        |        ✓ |
+| model          |    LanguageModel    |        ✓ |
+| conversationID |       String        |        ✓ |
+| maxTokens      |       Integer       |        ✓ |
+| creativity     | Integer (0.0 - 1.0) |        ✓ |
 
 
 #### Image Generation
@@ -110,12 +110,12 @@ const response = await api.generateImage({
 ```
 
 ### Memory
-Ah, memory. The stuff of nightmares for those not brave enough to face its mighty power. We've even given it its own VIP section outside of the common parameters area, because let's be real, it deserves that kind of special treatment. So go ahead, quiver in fear as you approach the hallowed halls of memory, knowing that only the bravest of coders dare to venture into its realm. Or maybe you have years of coding experience, in which case, why on earth would you be using this package? But hey, we won't judge. Anyways, here's how you use the thing.
+Ah, memory. The stuff of nightmares for those not brave enough to face its mighty power. We've even given it its own VIP section outside the common parameters area, because let's be real, it deserves that kind of special treatment. So go ahead, quiver in fear as you approach the hallowed halls of memory, knowing that only the bravest of coders dare to venture into its realm. Or maybe you have years of coding experience, in which case, why on earth would you be using this package? But hey, we won't judge. Anyway, here's how you use the thing.
 
 Our package stores every generateText request in a connected MongoDB database, unless you haven't set a MongoDB URI, in which case it'll just shrug and move on without throwing any errors.
 
 #### Generate Text Followups (REAL MEMORY)
-Wow, isn't it just amazing how you can use the conversation ID (if you even remember it) to create follow up requests for previous text requests? It's almost like technology is advancing every day or something. And get this - all you have to do is specify the conversation ID within the new request! Mind-blowing, isn't it? Who would have thought that following up on a conversation could be so simple?
+Wow, isn't it just amazing how you can use the conversation ID (if you even remember it) to create follow-up requests for previous text requests? It's almost like technology is advancing every day or something. And get this - all you have to do is specify the conversation ID within the new request! Mind-blowing, isn't it? Who would have thought that following up on a conversation could be so simple?
 ```ts
 const response = await api.generateText({
  prompt: "What is the biggest animal?",
