@@ -145,7 +145,7 @@ export class boostAI {
       const completion = await this.api.createCompletion({
         model: params.model || "text-davinci-003",
         prompt: dt,
-        max_tokens: params.maxTokens,
+        max_tokens: params.maxTokens || 4000,
         temperature: params.creativity,
       });
       let id = "No database set. Refer to docs if you would like to enable";
